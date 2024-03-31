@@ -69,10 +69,12 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menuLogout:
                 auth.signOut();
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
                 Toast.makeText(MainActivity.this, "Logged out successfully!", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.menuProfile:
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
                 break;
         }
 
