@@ -44,21 +44,29 @@ public class InformationsActivity extends AppCompatActivity {
             String lastname = binding.infoLastname.getText().toString();
             String bio = binding.infoBio.getText().toString();
 
-            String uid = auth.getCurrentUser().getUid();
+            String uid = auth.getCurrentUser().getUid().toString();
 
-            User user = new User(username, firstname, lastname, bio);
-            if (uid != null) {
-                databaseReference.child(uid).setValue(user).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        // Signup successful
-                        // You may want to store additional user data in Firebase Database here
-                        Toast.makeText(InformationsActivity.this, "Signup Successful", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(InformationsActivity.this, LoginActivity.class));
-                    } else {
-                        // Signup failed
-                        Toast.makeText(InformationsActivity.this, "Signup Failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+            if (username.isEmpty()) {
+                binding.infoUsername.setError("Username required!");
+            } else if (firstname.isEmpty()) {
+                binding.infoFirstname.setError("Firstname required!");
+            } else if (lastname.isEmpty()) {
+                binding.infoLastname.setError("Lastname required!");
+            } else {
+                User user = new User(username, firstname, lastname, bio);
+                if (!uid.isEmpty()) {
+                    databaseReference.child(uid).setValue(user).addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            // Signup successful
+                            // You may want to store additional user data in Firebase Database here
+                            Toast.makeText(InformationsActivity.this, "Signup Successful!", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(InformationsActivity.this, LoginActivity.class));
+                        } else {
+                            // Signup failed
+                            Toast.makeText(InformationsActivity.this, "Error : " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
     }

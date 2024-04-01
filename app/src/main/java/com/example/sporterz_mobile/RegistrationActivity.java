@@ -59,11 +59,11 @@ public class RegistrationActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         // Signup successful
                                         // You may want to store additional user data in Firebase Database here
-                                        Toast.makeText(RegistrationActivity.this, "Signup Successful", Toast.LENGTH_SHORT).show();
+                                        // Toast.makeText(RegistrationActivity.this, "Signup Successful", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(RegistrationActivity.this, InformationsActivity.class));
                                     } else {
                                         // Signup failed
-                                        Toast.makeText(RegistrationActivity.this, "Signup Failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(RegistrationActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
