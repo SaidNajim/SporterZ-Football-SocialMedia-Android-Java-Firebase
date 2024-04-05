@@ -53,7 +53,7 @@ public class InformationsActivity extends AppCompatActivity {
             } else if (lastname.isEmpty()) {
                 binding.infoLastname.setError("Lastname required!");
             } else {
-                User user = new User(username, firstname, lastname, bio);
+                User user = new User(firstname, lastname, username, bio);
                 if (!uid.isEmpty()) {
                     databaseReference.child(uid).setValue(user).addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
