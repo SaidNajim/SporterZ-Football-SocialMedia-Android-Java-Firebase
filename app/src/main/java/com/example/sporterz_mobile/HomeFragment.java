@@ -2,8 +2,6 @@ package com.example.sporterz_mobile;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,11 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,8 +44,6 @@ public class HomeFragment extends Fragment {
     private ArrayList<HomeItem> items;
     private HomeItem item;
     private String username;
-    private Bitmap imageBitmap;
-    private StorageReference storageReference;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,12 +85,7 @@ public class HomeFragment extends Fragment {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
                 Date currentDate = new Date();
                 String formattedDate = dateFormat.format(currentDate);
-                try {
-                    getProfileImage();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                HomeItem homeItem = new HomeItem(imageBitmap, username, thinking, formattedDate);
+                HomeItem homeItem = new HomeItem(username, thinking, formattedDate);
                 String postId = databaseReference.push().getKey();
                 if (!thinking.isEmpty() && !postId.isEmpty()) {
                     databaseReference.child(postId).setValue(homeItem)
@@ -122,26 +109,16 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    private void getProfileImage() throws IOException {
-        final String userId = auth.getCurrentUser().getUid().toString();
-        storageReference = FirebaseStorage.getInstance().getReference().child("images/" + userId);
-        File localfile = File.createTempFile("tempImage", "jpeg");
-        storageReference.getFile(localfile).addOnSuccessListener(taskSnapshot -> {
-            imageBitmap = BitmapFactory.decodeFile(localfile.getAbsolutePath());
-        });
-    }
-
     private void fetchPosts() {
         dbReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 items.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Bitmap postImage = (Bitmap) snapshot.child("imageBitmap").getValue();
                     String username = String.valueOf(snapshot.child("username").getValue());
                     String thinking = String.valueOf(snapshot.child("thinking").getValue());
                     String postDate = String.valueOf(snapshot.child("postDate").getValue());
-                    item = new HomeItem(postImage, username, thinking, postDate);
+                    item = new HomeItem(username, thinking, postDate);
                     items.add(item);
                 }
                 myAdapter.notifyDataSetChanged();

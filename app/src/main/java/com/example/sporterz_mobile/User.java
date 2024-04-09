@@ -1,7 +1,5 @@
 package com.example.sporterz_mobile;
 
-import android.net.Uri;
-
 public class User {
     private String firstname;
     private String lastname;
