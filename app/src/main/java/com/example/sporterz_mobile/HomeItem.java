@@ -10,6 +10,7 @@ public class HomeItem {
     public HomeItem(String thinking) {
         this.thinking = thinking;
     }
+    public HomeItem() { }
 
     public String getThinking() {
         return thinking;
