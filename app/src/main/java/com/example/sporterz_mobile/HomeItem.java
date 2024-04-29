@@ -37,6 +37,7 @@ public class HomeItem {
     public void setUsername(String username) {
         this.username = username;
     }
+    public HomeItem() { }
 
     public String getThinking() {
         return thinking;
