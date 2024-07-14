@@ -1,4 +1,4 @@
-# SportzerZ Mobile
+# SporterZ Mobile
 **Connecting fans, sharing content, and staying updated on matches.**
 <p>
   <img src="https://github.com/user-attachments/assets/ab2271ad-a2cc-4c21-9950-c136d5e74723" width="450" alt="SportzerZ Logo">
